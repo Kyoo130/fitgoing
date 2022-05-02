@@ -63,7 +63,7 @@ const SignUp = () => {
         />
       </Grid>
 
-      <Button text="회원가입하기" _onClick={signUp} />
+      <Button margin="16px 0" text="회원가입하기" _onClick={signUp} />
     </Grid>
   );
 };

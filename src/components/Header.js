@@ -23,6 +23,7 @@ const Header = () => {
         <Grid is_flex>
           <Button
             text="로그아웃"
+            hover_bg
             _onClick={() => {
               dispatch(authAction.logOutFB());
             }}
@@ -42,12 +43,14 @@ const Header = () => {
       <Grid is_flex>
         <Button
           text="로그인"
+          hover_bg
           _onClick={() => {
             history.push("/login");
           }}
         />
         <Button
           text="회원가입"
+          hover_bg
           _onClick={() => {
             history.push("/signup");
           }}

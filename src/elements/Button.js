@@ -2,13 +2,24 @@ import React from "react";
 import styled from "styled-components";
 
 const Button = (props) => {
-  const { text, _onClick, is_float, margin, width, padding, bg, children } =
-    props;
+  const {
+    name,
+    text,
+    _onClick,
+    is_float,
+    margin,
+    width,
+    padding,
+    bg,
+    hover_bg,
+    children,
+  } = props;
   const styles = {
     margin: margin,
     width: width,
     padding: padding,
     bg: bg,
+    hover_bg: hover_bg,
   };
 
   if (is_float) {
@@ -21,7 +32,7 @@ const Button = (props) => {
 
   return (
     <>
-      <ElButton {...styles} onClick={_onClick}>
+      <ElButton name={name} {...styles} onClick={_onClick}>
         {text ? text : children}
       </ElButton>
     </>
@@ -30,12 +41,14 @@ const Button = (props) => {
 
 Button.defaultProps = {
   children: null,
+  name: null,
   text: false,
   is_float: false,
   margin: false,
   width: "100%",
   padding: "12px 0",
   bg: "#21BF48",
+  hover_bg: false,
   _onClick: () => {},
 };
 
@@ -50,7 +63,7 @@ const ElButton = styled.button`
 
   ${(props) => (props.margin ? `margin: ${props.margin};` : "")}
   :hover {
-    background-color: #1ea942;
+    ${(props) => (props.hover_bg ? `background-color: #1ea942;` : "")}
   }
 `;
 

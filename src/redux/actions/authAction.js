@@ -77,10 +77,50 @@ function logInCheckFB() {
         });
       } else {
         dispatch({
-          type: "LOG_OUT"
+          type: "LOG_OUT",
         });
       }
     });
+  };
+}
+
+function socialLoginFB(name) {
+  return async (dispatch, getState, { history }) => {
+    let provider;
+    if (name === "google") {
+      console.log("google 작동");
+      provider = new firebase.auth.GoogleAuthProvider();
+    } else if (name === "facebook") {
+      console.log("facebook 작동");
+      provider = new firebase.auth.FacebookAuthProvider();
+    } else if (name === "github") {
+      console.log("github 작동");
+      provider = new firebase.auth.GithubAuthProvider();
+    }
+    await authService
+      .setPersistence(firebase.auth.Auth.Persistence.SESSION)
+      .then(() => {
+        authService
+          .signInWithPopup(provider)
+          .then((user) => {
+            console.log(user);
+            dispatch({
+              type: "SET_USER",
+              payload: {
+                user_name: user.user.displayName,
+                id: user.user.email,
+                user_profile: user.user.photoURL,
+                uid: user.user.uid,
+              },
+            });
+            history.push("/");
+          })
+          .catch((error) => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            console.log(errorCode, errorMessage);
+          });
+      });
   };
 }
 
@@ -88,11 +128,17 @@ function logOutFB() {
   return async (dispatch, getState, { history }) => {
     await authService.signOut().then(() => {
       dispatch({
-        type: "LOG_OUT"
+        type: "LOG_OUT",
       });
-      history.replace("/");
+      history.replace("/login");
     });
   };
 }
 
-export const authAction = { signUpFB, logInFB, logInCheckFB, logOutFB };
+export const authAction = {
+  signUpFB,
+  logInFB,
+  logInCheckFB,
+  logOutFB,
+  socialLoginFB,
+};
