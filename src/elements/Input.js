@@ -1,13 +1,17 @@
 import React from "react";
 import styled from "styled-components";
+import { ERROR_MSG } from "../shared/validation";
 
 import { Text, Grid } from "./index";
 
 const Input = (props) => {
   const {
+    name,
     label,
+    errorData,
     placeholder,
     _onChange,
+    _onBlur,
     type,
     multiLine,
     value,
@@ -20,6 +24,7 @@ const Input = (props) => {
       <Grid>
         {label && <Text margin="0px">{label}</Text>}
         <ElTextarea
+          name={name}
           rows={10}
           value={value}
           placeholder={placeholder}
@@ -35,6 +40,7 @@ const Input = (props) => {
         {label && <Text margin="10px 0">{label}</Text>}
         {is_submit ? (
           <ElInput
+            name={name}
             type={type}
             required
             placeholder={placeholder}
@@ -48,11 +54,18 @@ const Input = (props) => {
           />
         ) : (
           <ElInput
+            name={name}
             type={type}
             placeholder={placeholder}
             onChange={_onChange}
+            onBlur={_onBlur}
             required
           />
+        )}
+        {errorData && (
+          <Text margin={"5px 0"} color={"red"}>
+            {errorData[name] !== true ? ERROR_MSG[errorData[name]] : ""}
+          </Text>
         )}
       </Grid>
     </>
@@ -61,24 +74,27 @@ const Input = (props) => {
 
 Input.defaultProps = {
   multiLine: false,
+  name: null,
   label: false,
+  errorData: false,
   placeholder: "텍스트를 입력해주세요.",
   type: "text",
   value: "",
   is_submit: false,
   onSubmit: () => {},
   _onChange: () => {},
+  _onBlur: () => {},
 };
 
 const ElTextarea = styled.textarea`
-  border: 1px solid #C4C4C4;
+  border: 1px solid #c4c4c4;
   width: 100%;
   padding: 12px 4px;
   box-sizing: border-box;
 `;
 
 const ElInput = styled.input`
-  border: 1px solid #C4C4C4;
+  border: 1px solid #c4c4c4;
   width: 100%;
   padding: 12px 4px;
   box-sizing: border-box;
