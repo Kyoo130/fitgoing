@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { ERROR_MSG } from "../shared/validation";
+import { errorMessage } from "../shared/validation";
 
 import { Text, Grid } from "./index";
 
@@ -64,7 +64,7 @@ const Input = (props) => {
         )}
         {errorData && (
           <Text margin={"5px 0"} color={"red"}>
-            {errorData[name] !== true ? ERROR_MSG[errorData[name]] : ""}
+            {errorData[name] !== true ? errorMessage[errorData[name]] : ""}
           </Text>
         )}
       </Grid>

@@ -22,11 +22,6 @@ const SignUp = () => {
     confirmPassword: "",
   });
 
-  const signUp = () => {
-    const { email, userName, password } = initialData;
-    dispatch(authAction.signUpFB(email, password, userName));
-  };
-
   const checkRegex = (inputName) => {
     let result;
     const value = initialData[inputName];
@@ -55,6 +50,18 @@ const SignUp = () => {
     setErrorData((prev) => ({ ...prev, [inputName]: result }));
   };
 
+  const signUp = () => {
+    const { email, userName, password } = initialData;
+    if (
+      errorData["email"] &&
+      errorData["userName"] &&
+      errorData["password"] &&
+      errorData["confirmPassword"] === true
+    ) {
+      dispatch(authAction.signUpFB(email, password, userName));
+    }
+  };
+
   return (
     <Grid padding="16px 16px">
       <Text size="32px" bold>
@@ -64,8 +71,8 @@ const SignUp = () => {
       <Grid padding="16px 0">
         <Input
           name="email"
-          label="아이디"
-          placeholder="아이디(Email)를 입력해주세요."
+          label="아이디(Email)"
+          placeholder="Email 형식의 아이디를 입력해주세요."
           errorData={errorData}
           _onChange={(e) =>
             setInitialData((prev) => ({
@@ -80,7 +87,7 @@ const SignUp = () => {
       <Grid padding="16px 0">
         <Input
           name="userName"
-          label="name"
+          label="닉네임"
           placeholder="닉네임을 입력해주세요."
           errorData={errorData}
           _onChange={(e) =>
